@@ -31,8 +31,8 @@ class UsersController {
             password: hashedPwd,
           },
         ).then((result) => {
-          response.status(201).json({ id: result.inserteId, email });
-          userQueue.add({ userId: result.inserteId });
+          response.status(201).json({ id: result.insertedId, email });
+          userQueue.add({ userId: result.insertedId });
         }).catch((error) => console.log(error));
       }
     });
