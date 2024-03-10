@@ -1,20 +1,31 @@
-const { MongoClient } = require('mongodb');
+import { MongoClient } from 'mongodb';
+
+const HOST = process.env.DB_HOST || 'localhost';
+const PORT = process.env.DB_PORT || 27017;
+const DATABASE = process.env.DB_DATABASE || 'files_manager';
+const url = `mongodb://${HOST}:${PORT}`;
 
 class DBClient {
   constructor() {
-    const host = (process.env.DB_HOST) ? process.env.DB_HOST : 'localhost';
-    const port = (process.env.DB_PORT) ? process.env.DB_PORT : 27017;
-    this.database = (process.env.DB_DATABSE) ? process.env.DB_DATABSE : 'files_manager';
-    const dbUrl = `mongodb://${host}:${port}`;
-    this.connected = false;
-    this.client = new MongoClient(dbUrl, { useUnifiedTopology: true });
-    this.client.connect().then(() => {
-      this.connected = true;
-    }).catch((err) => console.log(err.message));
+    this.client = new MongoClient(url, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    });
+    this.client
+      .connect()
+      .then(() => {
+        this.db = this.client.db(`${DATABASE}`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   isAlive() {
-    return this.connected;
+    if (this.client.isConnected()) {
+      return true;
+    }
+    return false;
   }
 
   async nbUsers() {
