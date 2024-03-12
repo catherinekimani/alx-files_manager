@@ -34,10 +34,10 @@ router.get('/files/:id', FilesController.getShow);
 router.get('/files', FilesController.getIndex);
 
 // PUT /files/:id/publish => FilesController.putPublish
-router.put('/files/:id', FilesController.putPublish);
+router.put('/files/:id/publish', FilesController.putPublish);
 
-// PUT /files/:id/publish => FilesController.putUnpublish
-router.put('/files/:id', FilesController.putUnpublish);
+// PUT /files/:id/unpublish => FilesController.putUnpublish
+router.put('/files/:id/unpublish', FilesController.putUnpublish);
 
 // GET /files/:id/data => FilesController.getFile
 router.get('/files:id/data', FilesController.getFile);
